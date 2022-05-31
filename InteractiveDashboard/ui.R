@@ -12,10 +12,37 @@ library(DT)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
+  tags$head(
+  # Note the wrapping of the string in HTML()
+    tags$style(HTML("
+        body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }"
+    ))
+  ),
 
+  
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Spell selection"),
+    
+    fluidRow(
+      column(6,
+             DT::dataTableOutput("mytable")
+      ),
+      column(6,
+             verbatimTextOutput('x4'),
+             textOutput("spellname"),
+             textOutput("spelllevel"),
+             textOutput("spellschool"),
+             textOutput("spellclasses"),
+             textOutput("spelldescription")
+      )
+    )
     
     
-    DT::dataTableOutput("mytable", height = 800, width = 600)
 ))
