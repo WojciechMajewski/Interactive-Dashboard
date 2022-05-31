@@ -36,11 +36,17 @@ shinyUI(fluidPage(
       ),
       column(6,
              verbatimTextOutput('x4'),
-             textOutput("spellname"),
-             textOutput("spelllevel"),
-             textOutput("spellschool"),
-             textOutput("spellclasses"),
-             textOutput("spelldescription")
+             fluidRow(
+               column(1,textOutput("spelllevel")),
+               column(3,textOutput("spellschool")),
+               column(8,textOutput("spellclasses"), align = 'right')
+             ),
+             fluidRow(
+               column(12, textOutput("spellname"), align = 'center')
+             ),
+             fluidRow(
+               column(10, offset=1, textOutput("spelldescription"), align = 'justify')
+             )
       )
     )
     
