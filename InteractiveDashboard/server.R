@@ -56,7 +56,8 @@ shinyServer(function(input, output) {
   
   output$spelllevel = renderText({
     if(length(input$mytable_rows_selected)){
-      data[input$mytable_rows_selected, "level"]
+      paste("Tier: ", 
+            data[input$mytable_rows_selected, "level"])
     }
   })
   

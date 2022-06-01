@@ -35,18 +35,23 @@ shinyUI(fluidPage(
              DT::dataTableOutput("mytable")
       ),
       column(6,
-             verbatimTextOutput('x4'),
+             #verbatimTextOutput('x4'),
+             
              fluidRow(
-               column(1,textOutput("spelllevel")),
-               column(3,textOutput("spellschool")),
-               column(8,textOutput("spellclasses"), align = 'right')
+                column(8, offset = 2, textOutput("spellname"), align = 'center', style = "font-size:30px; ")
              ),
              fluidRow(
-               column(12, textOutput("spellname"), align = 'center')
+               column(1, textOutput("spelllevel"), style = "font-size:18px; padding:10px"),
+               column(1, textOutput("spellschool"), style = "font-size:18px; padding:10px"),
+               column(10, textOutput("spellclasses"), 
+                      align = 'right', style = "font-size:18px; padding:10px")
              ),
              fluidRow(
-               column(10, offset=1, textOutput("spelldescription"), align = 'justify')
-             )
+               column(10, offset=1, textOutput("spelldescription"), 
+                      align = 'justify', style = "font-size:16px;")
+             )#,
+             #img(src = "PP_logotyp_ANG_RGB.png", height="100%", width="100%")
+      
       )
     )
     
