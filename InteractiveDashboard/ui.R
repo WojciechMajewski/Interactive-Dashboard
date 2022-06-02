@@ -64,11 +64,19 @@ shinyUI(fluidPage(
       column(6,
              
              fluidRow(
-                 selectInput("classpicker", "CLASS: ",
-                             c("Any", "Artificer", "Bard", "Cleric",
-                               "Druid", "Paladin", "Ranger",
-                               "Sorcerer", "Warlock", "Wizard")),
-                 style = "font-size:18px; padding:30px; width:200px"
+               column(6, align="right",
+                      "Specific class:",
+                      style = "font-size:18px; padding-top:16px"
+                      ),
+               column(4, align="left", 
+                      selectInput("classpicker", NULL, 
+                                  #selectize = FALSE,
+                                  #size = 10,
+                                  c("Any", "Artificer", "Bard", "Cleric",
+                                    "Druid", "Paladin", "Ranger",
+                                    "Sorcerer", "Warlock", "Wizard")),
+                      style = "font-size:18px; width:140px; padding-top:12px"
+                      )
               ),
              
              fluidRow(
