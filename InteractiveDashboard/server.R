@@ -64,10 +64,6 @@ shinyServer(function(input, output) {
     }
   })
   
-  
-  
- 
-  
   # print the selected indices
   output$x4 = renderPrint({
     s = input$mytable_rows_selected
@@ -80,40 +76,115 @@ shinyServer(function(input, output) {
     }
   })
   
+  
+    
   output$spellname = renderText({
-    if(length(input$mytable_rows_selected)){
-      data[input$mytable_rows_selected, "name"]
+    
+    # If NO specific class is picked
+    if(input$classpicker == "Any"){ 
+      # If a spell is picked
+      if(length(input$mytable_rows_selected)){
+        data[input$mytable_rows_selected, "name"]
+      }
+      # If a spell is NOT picked
+      else{
+        "Pick a spell"
+      }
+      
     }
+    # If specific class is picked
     else{
-      "Pick a spell"
+      # If a spell is picked
+      if(length(input$mytable_rows_selected)){
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c(name)
+        )[input$mytable_rows_selected, "name"]
+      }
+      # If a spell is NOT picked
+      else{
+        "Pick a spell"
+      }
     }
   })
   
   output$spelllevel = renderText({
-    if(length(input$mytable_rows_selected)){
-      paste("Tier: ", 
-            data[input$mytable_rows_selected, "level"])
+    if(input$classpicker == "Any"){
+      
+      if(length(input$mytable_rows_selected)){
+        paste("Tier: ", 
+              data[input$mytable_rows_selected, "level"])
+      }
+      else{
+        "Tier: -"
+      }
     }
     else{
-      "Tier: -"
+      if(length(input$mytable_rows_selected)){
+        paste("Tier: ", 
+              subset(
+                data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+                select = c(level)
+              )[input$mytable_rows_selected, "level"])
+      }
+      else{
+        "Tier: -"
+      }
+      
     }
   })
   
   output$spellschool = renderText({
-    if(length(input$mytable_rows_selected)){
-      data[input$mytable_rows_selected, "school"]
+    if(input$classpicker == "Any"){
+      
+      if(length(input$mytable_rows_selected)){
+        data[input$mytable_rows_selected, "school"]
+      }
+    }
+    else{
+      
+      if(length(input$mytable_rows_selected)){
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c(school)
+        )[input$mytable_rows_selected, "school"]
+      }
     }
   })
   
   output$spellclasses = renderText({
-    if(length(input$mytable_rows_selected)){
-      data[input$mytable_rows_selected, "classes"]
+    if(input$classpicker == "Any"){
+      
+      if(length(input$mytable_rows_selected)){
+        data[input$mytable_rows_selected, "classes"]
+      }
+    }
+    else{
+      
+      if(length(input$mytable_rows_selected)){
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c(classes)
+        )[input$mytable_rows_selected, "classes"]
+      }
     }
   })
   
   output$spelldescription = renderText({
-    if(length(input$mytable_rows_selected)){
-      data[input$mytable_rows_selected, "description"]
+    if(input$classpicker == "Any"){
+      
+      if(length(input$mytable_rows_selected)){
+        data[input$mytable_rows_selected, "description"]
+      }
+    }
+    else{
+      
+      if(length(input$mytable_rows_selected)){
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c(description)
+        )[input$mytable_rows_selected, "description"]
+      }
     }
   })
   

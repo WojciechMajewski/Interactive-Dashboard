@@ -38,8 +38,8 @@ shinyUI(fluidPage(
              ),
              
              fluidRow( 
-               column(6, offset = 2,
-                      icon("calendar", class = NULL, lib = "font-awesome"),
+               column(6, offset = 3,
+                      #icon("calendar", class = NULL, lib = "font-awesome"),
                       textOutput("spellname"),
                       align = 'center',
                       style = "font-size:30px; font-weight: bold, vertical-align:top"
