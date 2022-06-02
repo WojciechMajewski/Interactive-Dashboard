@@ -28,17 +28,22 @@ shinyUI(fluidPage(
 
   
     # Application title
-    titlePanel("Spell selection"),
     
     fluidRow(
       column(6,
-             DT::dataTableOutput("mytable")
-      ),
-      column(6,
              #verbatimTextOutput('x4'),
-             
              fluidRow(
-                column(8, offset = 2, textOutput("spellname"), align = 'center', style = "font-size:30px; ")
+               img(src = "PP_logotyp_ANG_RGB.png", height="100%", width="100%"),
+               style = "padding:30px;"
+             ),
+             
+             fluidRow( 
+               column(6, offset = 2,
+                      icon("calendar", class = NULL, lib = "font-awesome"),
+                      textOutput("spellname"),
+                      align = 'center',
+                      style = "font-size:30px; font-weight: bold, vertical-align:top"
+               )
              ),
              fluidRow(
                column(1, textOutput("spelllevel"), style = "font-size:18px; padding:10px"),
@@ -46,12 +51,29 @@ shinyUI(fluidPage(
                column(10, textOutput("spellclasses"), 
                       align = 'right', style = "font-size:18px; padding:10px")
              ),
-             fluidRow(
+             fluidRow(class = "descriptionclass", 
                column(10, offset=1, textOutput("spelldescription"), 
                       align = 'justify', style = "font-size:16px;")
-             )#,
-             #img(src = "PP_logotyp_ANG_RGB.png", height="100%", width="100%")
+             ),
+             
+             tags$head(tags$style("
+              .descriptionclass{height:64vh;}"
+             ))
       
+      ),
+      column(6,
+             
+             fluidRow(
+                 selectInput("classpicker", "CLASS: ",
+                             c("Any", "Artificer", "Bard", "Cleric",
+                               "Druid", "Paladin", "Ranger",
+                               "Sorcerer", "Warlock", "Wizard")),
+                 style = "font-size:18px; padding:30px; width:200px"
+              ),
+             
+             fluidRow(
+                DT::dataTableOutput("mytable")
+             )
       )
     )
     
