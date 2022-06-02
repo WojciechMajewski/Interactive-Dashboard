@@ -14,7 +14,6 @@ data <- read.csv("dnd-spells.csv")
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   output$mytable = DT::renderDataTable({
-    
     #data <- read.csv("dnd-spells.csv")
     
     if(input$classpicker == "Any"){
@@ -23,12 +22,21 @@ shinyServer(function(input, output) {
           data,
           select = c(name, level, school)
         ),
+        colnames = c("Spell Name" = "name", "Tier" = "level", "Spellschool" = "school"),
+        rownames = FALSE,
+        caption = htmltools::tags$caption(
+          style = 'caption-side: bottom; text-align: center;', htmltools::em('Click on a spell to learn all about it!')
+        ),
         selection = "single",
         options = list(
           dom = 't',
-          #dom = 'tf'
+          #dom = 'tf',
+          autoWidth = FALSE,
           paging = FALSE,
           scrollY="80vh", 
+          scrollX=TRUE,
+          columnDefs=list(list(width="20px",targets=c(1,2)),
+                          list(width="200px",targets=c(0))),
           scrollCollapse=TRUE,
           initComplete = JS(
             "function(settings, json) {",
@@ -46,12 +54,21 @@ shinyServer(function(input, output) {
           data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
           select = c(name, level, school)
         ),
+        colnames = c("Spell Name" = "name", "Tier" = "level", "Spellschool" = "school"),
+        rownames = FALSE,
+        caption = htmltools::tags$caption(
+          style = 'caption-side: bottom; text-align: center;', htmltools::em('Click on a spell to learn all about it!')
+        ),
         selection = "single",
         options = list(
           dom = 't',
           #dom = 'tf'
+          autoWidth = FALSE,
           paging = FALSE,
           scrollY="80vh", 
+          scrollX=TRUE,
+          columnDefs=list(list(width="20px",targets=c(1,2)),
+                          list(width="200px",targets=c(0))),
           scrollCollapse=TRUE,
           initComplete = JS(
             "function(settings, json) {",
@@ -138,16 +155,26 @@ shinyServer(function(input, output) {
     if(input$classpicker == "Any"){
       
       if(length(input$mytable_rows_selected)){
-        data[input$mytable_rows_selected, "school"]
+        paste("Spell school: ", 
+          data[input$mytable_rows_selected, "school"]
+        )
+      }
+      else{
+        "Spell school: -"
       }
     }
     else{
       
       if(length(input$mytable_rows_selected)){
-        subset(
-          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
-          select = c(school)
-        )[input$mytable_rows_selected, "school"]
+        paste("Spell school: ", 
+          subset(
+            data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+            select = c(school)
+          )[input$mytable_rows_selected, "school"]
+        )
+      }
+      else{
+        "Spell school: -"
       }
     }
   })

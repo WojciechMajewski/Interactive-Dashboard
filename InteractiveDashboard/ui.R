@@ -10,8 +10,10 @@
 library(shiny)
 library(DT)
 
+
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
+  tags$style("@import url(https://use.fontawesome.com/releases/v6.1.1/css/all.css);"),
   tags$head(
   # Note the wrapping of the string in HTML()
     tags$style(HTML("
@@ -30,11 +32,36 @@ shinyUI(fluidPage(
     # Application title
     
     fluidRow(
-      column(6,
+      column(7,
              #verbatimTextOutput('x4'),
              fluidRow(
-               img(src = "PP_logotyp_ANG_RGB.png", height="100%", width="100%"),
-               style = "padding:30px;"
+               column(9, 
+                      img(src = "PP_logotyp_ANG_RGB.png", 
+                          height="100%", width="100%"),
+                      style = "padding:20px;"),
+               
+               column(3,
+                      style = "font-size:18px; padding-top:12px",
+                      actionButton("charts", NULL, 
+                                   style = "height:52px; width:52px; 
+                                   background-color:#8c44c1;
+                                   color:white;
+                                   border:none",
+                                   icon = icon("fa-solid fa-chart-simple", class = NULL, 
+                                               lib = "font-awesome",
+                                               verify_fa = FALSE,
+                                               style="font-size: 32px; color:white")),
+                      actionButton("info", NULL, 
+                                   style = "height:52px; width:52px; 
+                                   background-color:#8c44c1;
+                                   color:white;
+                                   border:none",
+                                   icon = icon("fa-solid fa-question", class = NULL, 
+                                               lib = "font-awesome",
+                                               verify_fa = FALSE,
+                                               style="font-size: 32px; color:white"))
+               )
+             
              ),
              
              fluidRow( 
@@ -42,40 +69,37 @@ shinyUI(fluidPage(
                       #icon("calendar", class = NULL, lib = "font-awesome"),
                       textOutput("spellname"),
                       align = 'center',
-                      style = "font-size:30px; font-weight: bold, vertical-align:top"
+                      style = "font-size:24px; font-weight: bold, vertical-align:top"
                )
              ),
              fluidRow(
-               column(1, textOutput("spelllevel"), style = "font-size:18px; padding:10px"),
-               column(1, textOutput("spellschool"), style = "font-size:18px; padding:10px"),
-               column(10, textOutput("spellclasses"), 
-                      align = 'right', style = "font-size:18px; padding:10px")
+               column(2, textOutput("spelllevel"), style = "font-size:15px"),
+               column(3, textOutput("spellschool"), style = "font-size:15px"),
+               column(7, textOutput("spellclasses"), 
+                      align = 'right', style = "font-size:15px")
              ),
              fluidRow(class = "descriptionclass", 
-               column(10, offset=1, textOutput("spelldescription"), 
-                      align = 'justify', style = "font-size:16px;")
-             ),
-             
-             tags$head(tags$style("
-              .descriptionclass{height:64vh;}"
-             ))
+               column(12, textOutput("spelldescription"), 
+                      align = 'justify', style = "font-size:18px; 
+                      padding-top:10px; padding-left:16px; padding-right:16px;")
+             )
       
       ),
-      column(6,
+      column(5,
              
              fluidRow(
-               column(6, align="right",
-                      "Specific class:",
-                      style = "font-size:18px; padding-top:16px"
+               column(4, align="right",
+                      style = "font-size:18px; padding-top:16px",
+                      "Specific class:"
                       ),
-               column(4, align="left", 
+               column(4, align="left",
+                      style = "font-size:18px; width:140px; padding-top:12px",
                       selectInput("classpicker", NULL, 
                                   #selectize = FALSE,
                                   #size = 10,
                                   c("Any", "Artificer", "Bard", "Cleric",
                                     "Druid", "Paladin", "Ranger",
-                                    "Sorcerer", "Warlock", "Wizard")),
-                      style = "font-size:18px; width:140px; padding-top:12px"
+                                    "Sorcerer", "Warlock", "Wizard"))
                       )
               ),
              
