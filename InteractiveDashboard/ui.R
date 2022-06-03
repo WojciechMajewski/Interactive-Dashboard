@@ -114,7 +114,9 @@ shinyUI(fluidPage(
                         padding-top:10px; padding-left:16px; padding-right:16px;")
                    )
                ),
-               tabPanelBody("charts", "charts"),
+               tabPanelBody("charts",
+                            plotOutput("chartschool"),
+                            plotOutput("chartlevel")),
                
                tabPanelBody("info", 
                  fluidRow(

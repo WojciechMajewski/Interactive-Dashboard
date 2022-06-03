@@ -8,8 +8,16 @@
 #
 
 library(shiny)
+library(plotly)
+library(ggplot2)
 
 data <- read.csv("dnd-spells.csv")
+levelcolorvalues = c("#ead1dc", "#e3c3d1", "#dbb4c6", "#d4a5bb", "#cc97b0", 
+                     "#c588a5", "#bd799a", "#b66b8f", "#ae5c84", "#a64d79")
+levelcolorbreaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+schoolcolorvalues = c("Abjuration" = "#cfe2f3", "Conjuration"="#f4cccc", 
+                      "Divination"="#d9ead3", "Enchantment" = "#ead1dc", "Evocation" = "#fce5cd", 
+                      "Illusion" = "#d9d2e9", "Necromancy" = "#d9d9d9", "Transmutation" = "#e6b8af")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
@@ -225,6 +233,52 @@ shinyServer(function(input, output, session) {
           select = c(description)
         )[input$mytable_rows_selected, "description"]
       }
+    }
+  })
+  
+  output$chartschool = renderPlot({
+    if(input$classpicker == "Any"){
+      
+      ggplot(data) +
+        geom_bar(aes(x = school, fill = school), 
+                 stat = "count")  +
+        scale_fill_manual(values = schoolcolorvalues) +
+        theme(legend.position = "none")
+    }
+    else{
+      
+      ggplot(subset(
+        data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+        select = c(school)
+      )) +
+        geom_bar(aes(x = school, fill = school), 
+                 stat = "count") +
+        scale_fill_manual(values = schoolcolorvalues) +
+        theme(legend.position = "none")
+    }
+  })
+  
+  output$chartlevel = renderPlot({
+    if(input$classpicker == "Any"){
+      
+      ggplot(data) +
+        geom_bar(aes(x = level, fill = factor(level)), 
+                 stat = "count") +
+        scale_fill_manual(values = levelcolorvalues, breaks = levelcolorbreaks) +
+        theme(legend.position = "none") +
+        scale_x_continuous(breaks = seq(0, 9))
+    }
+    else{
+      
+      ggplot(subset(
+        data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+        select = c(level)
+      )) +
+        geom_bar(aes(x = level, fill = factor(level)), 
+                 stat = "count") +
+        scale_fill_manual(values = levelcolorvalues, breaks = levelcolorbreaks) +
+        theme(legend.position = "none") +
+        scale_x_continuous(breaks = seq(0, 9))
     }
   })
   
