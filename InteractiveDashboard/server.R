@@ -12,7 +12,18 @@ library(shiny)
 data <- read.csv("dnd-spells.csv")
 
 # Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
+  
+  observeEvent(input$spelllist, {
+    updateTabsetPanel(session, "textPanel", selected = "spelllist")
+  })
+  observeEvent(input$charts, {
+    updateTabsetPanel(session, "textPanel", selected = "charts")
+  })
+  observeEvent(input$info, {
+    updateTabsetPanel(session, "textPanel", selected = "info")
+  })
+  
   output$mytable = DT::renderDataTable({
     #data <- read.csv("dnd-spells.csv")
     
@@ -33,7 +44,8 @@ shinyServer(function(input, output) {
           #dom = 'tf',
           autoWidth = FALSE,
           paging = FALSE,
-          scrollY="80vh", 
+          #scrollY="80vh",
+          scrollY="90vh",
           scrollX=TRUE,
           columnDefs=list(list(width="20px",targets=c(1,2)),
                           list(width="200px",targets=c(0))),
@@ -65,7 +77,8 @@ shinyServer(function(input, output) {
           #dom = 'tf'
           autoWidth = FALSE,
           paging = FALSE,
-          scrollY="80vh", 
+          #scrollY="80vh",
+          scrollY="90vh",
           scrollX=TRUE,
           columnDefs=list(list(width="20px",targets=c(1,2)),
                           list(width="200px",targets=c(0))),
