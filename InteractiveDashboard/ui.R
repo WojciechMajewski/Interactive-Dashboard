@@ -32,7 +32,7 @@ shinyUI(fluidPage(
     # Application title
     
     fluidRow(
-      column(7,
+      column(8,
              #verbatimTextOutput('x4'),
              fluidRow(
                column(9, 
@@ -103,16 +103,103 @@ shinyUI(fluidPage(
                    )
                  ),
                  fluidRow(
-                   column(2, textOutput("spelllevel"), style = "font-size:15px"),
-                   column(3, textOutput("spellschool"), style = "font-size:15px"),
-                   column(7, textOutput("spellclasses"), 
-                     align = 'right', style = "font-size:15px")
+                   column(12, textOutput("spelldescription"), align = 'justify', 
+                          style = "font-size:18px; height:56vh; word-wrapping:normal;
+                      padding-top:10px; padding-left:16px; padding-right:16px;"
+                          )
+                 ),
+                 
+                 fluidRow(
+                   column(4, #style = "width:40vw",
+                          
+                          fluidRow(
+                            column(1, align="right", style = "; padding-right:24px",
+                              icon("fa-solid fa-crosshairs", class = NULL, 
+                                   lib = "font-awesome",
+                                   verify_fa = FALSE,
+                                   style="font-size: 28px; color:black")
+                            ),
+                            column(10, align="left", textOutput("range"), 
+                                   style = "font-size:18px"
+                            )
+                          ),
+                          
+                          fluidRow(
+                            column(1, align="right", style = "; padding-right:24px",
+                              icon("fa-solid fa-wand-magic-sparkles", class = NULL, 
+                                lib = "font-awesome",
+                                verify_fa = FALSE,
+                                style="font-size: 28px; color:black")
+                            ),
+                           column(10, align="left", textOutput("casttime"), 
+                                  style = "font-size:18px"
+                           )
+                          ),
+                          
+                          
+                          fluidRow(
+                            column(1, align="right", style = "; padding-right:24px",  
+                                   icon("fa-solid fa-hourglass", class = NULL, 
+                                        lib = "font-awesome",
+                                        verify_fa = FALSE,
+                                        style="font-size: 28px; color:black")
+                            ),
+                            column(10, align="left", textOutput("duration"), 
+                              style = "font-size:18px"
+                            )
+                          )
+                    ),
+                   column(6,
+                          fluidRow(
+                            column(1, align="right", style = "; padding-right:24px",  
+                                   icon("fa-solid fa-landmark", class = NULL, 
+                                        lib = "font-awesome",
+                                        verify_fa = FALSE,
+                                        style="font-size: 28px; color:black")
+                            ),
+                            column(10, align="left", textOutput("spellschool"), 
+                                   style = "font-size:18px"
+                            )
+                       ),
+                       fluidRow(
+                         column(1, align="right", style = "; padding-right:24px",  
+                                icon("fa-solid fa-stairs", class = NULL, 
+                                     lib = "font-awesome",
+                                     verify_fa = FALSE,
+                                     style="font-size: 28px; color:black")
+                         ),
+                         column(10, align="left", textOutput("spelllevel"), 
+                                style = "font-size:18px"
+                         )
+                       ),
+                       fluidRow(
+                         column(1, align="right", style = "; padding-right:24px",  
+                                icon("fa-solid fa-coins", class = NULL, 
+                                     lib = "font-awesome",
+                                     verify_fa = FALSE,
+                                     style="font-size: 28px; color:black")
+                         ),
+                         column(10, align="left", textOutput("cost"), 
+                                style = "font-size:16px"
+                         )
+                       )
                    ),
-                   fluidRow(class = "descriptionclass", 
-                     column(12, textOutput("spelldescription"), 
-                     align = 'justify', style = "font-size:18px; 
-                        padding-top:10px; padding-left:16px; padding-right:16px;")
+                   
+                   column(2, #style = "vertical-align:bottom",
+                          plotOutput("components", height = "60px", width = "120px")
                    )
+                 ),
+                 fluidRow(
+                   column(1, align="right", style = "; padding-right:24px",  
+                          icon("fa-solid fa-hat-wizard", class = NULL, 
+                               lib = "font-awesome",
+                               verify_fa = FALSE,
+                               style="font-size: 28px; color:black")
+                   ),
+                   column(10, align="left", textOutput("spellclasses"), 
+                          style = "font-size:18px")
+                 )
+                 
                ),
                tabPanelBody("charts",
                             plotOutput("chartschool"),
@@ -145,7 +232,7 @@ shinyUI(fluidPage(
              )
       
       ),
-      column(5,
+      column(4,
              
              fluidRow(
                 DT::dataTableOutput("mytable"),

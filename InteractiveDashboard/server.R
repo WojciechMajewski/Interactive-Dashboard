@@ -9,6 +9,7 @@
 
 library(shiny)
 library(plotly)
+library(reshape2)
 library(ggplot2)
 
 data <- read.csv("dnd-spells.csv")
@@ -18,6 +19,8 @@ levelcolorbreaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 schoolcolorvalues = c("Abjuration" = "#cfe2f3", "Conjuration"="#f4cccc", 
                       "Divination"="#d9ead3", "Enchantment" = "#ead1dc", "Evocation" = "#fce5cd", 
                       "Illusion" = "#d9d2e9", "Necromancy" = "#d9d9d9", "Transmutation" = "#e6b8af")
+
+
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output, session) {
@@ -136,7 +139,7 @@ shinyServer(function(input, output, session) {
       if(length(input$mytable_rows_selected)){
         subset(
           data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
-          select = c(name)
+          select = c("name")
         )[input$mytable_rows_selected, "name"]
       }
       # If a spell is NOT picked
@@ -150,23 +153,21 @@ shinyServer(function(input, output, session) {
     if(input$classpicker == "Any"){
       
       if(length(input$mytable_rows_selected)){
-        paste("Tier: ", 
-              data[input$mytable_rows_selected, "level"])
+        data[input$mytable_rows_selected, "level"]
       }
       else{
-        "Tier: -"
+        "-"
       }
     }
     else{
       if(length(input$mytable_rows_selected)){
-        paste("Tier: ", 
-              subset(
-                data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
-                select = c(level)
-              )[input$mytable_rows_selected, "level"])
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c("level")
+        )[input$mytable_rows_selected, "level"]
       }
       else{
-        "Tier: -"
+        "-"
       }
       
     }
@@ -176,26 +177,22 @@ shinyServer(function(input, output, session) {
     if(input$classpicker == "Any"){
       
       if(length(input$mytable_rows_selected)){
-        paste("Spell school: ", 
           data[input$mytable_rows_selected, "school"]
-        )
       }
       else{
-        "Spell school: -"
+        "-"
       }
     }
     else{
       
       if(length(input$mytable_rows_selected)){
-        paste("Spell school: ", 
           subset(
             data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
-            select = c(school)
+            select = c("school")
           )[input$mytable_rows_selected, "school"]
-        )
       }
       else{
-        "Spell school: -"
+        "-"
       }
     }
   })
@@ -206,14 +203,20 @@ shinyServer(function(input, output, session) {
       if(length(input$mytable_rows_selected)){
         data[input$mytable_rows_selected, "classes"]
       }
+      else{
+        "-"
+      }
     }
     else{
       
       if(length(input$mytable_rows_selected)){
         subset(
           data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
-          select = c(classes)
+          select = c("classes")
         )[input$mytable_rows_selected, "classes"]
+      }
+      else{
+        "-"
       }
     }
   })
@@ -230,9 +233,169 @@ shinyServer(function(input, output, session) {
       if(length(input$mytable_rows_selected)){
         subset(
           data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
-          select = c(description)
+          select = c("description")
         )[input$mytable_rows_selected, "description"]
       }
+    }
+  })
+  
+  output$range = renderText({
+    if(input$classpicker == "Any"){
+      
+      if(length(input$mytable_rows_selected)){
+        data[input$mytable_rows_selected, "range"]
+      }
+      else{
+        "-"
+      }
+    }
+    else{
+      
+      if(length(input$mytable_rows_selected)){
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c("range")
+        )[input$mytable_rows_selected, "range"]
+      }
+      else{
+        "-"
+      }
+    }
+  })
+  
+  output$casttime = renderText({
+    if(input$classpicker == "Any"){
+      
+      if(length(input$mytable_rows_selected)){
+        data[input$mytable_rows_selected, "cast_time"]
+      }
+      else{
+        "-"
+      }
+    }
+    else{
+      
+      if(length(input$mytable_rows_selected)){
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c("cast_time")
+        )[input$mytable_rows_selected, "cast_time"]
+      }
+      else{
+        "-"
+      }
+    }
+  })
+  
+  output$duration = renderText({
+    if(input$classpicker == "Any"){
+      
+      if(length(input$mytable_rows_selected)){
+        data[input$mytable_rows_selected, "duration"]
+      }
+      else{
+        "-"
+      }
+    }
+    else{
+      
+      if(length(input$mytable_rows_selected)){
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c("duration")
+        )[input$mytable_rows_selected, "duration"]
+      }
+      else{
+        "-"
+      }
+    }
+  })
+  
+  output$cost = renderText({
+    if(input$classpicker == "Any"){
+      
+      if(length(input$mytable_rows_selected)){
+        if(data[input$mytable_rows_selected, "material_cost"] == ""){
+          "-"
+        }
+        else{
+          
+          data[input$mytable_rows_selected, "material_cost"]
+        }
+      }
+      else{
+        "-"
+      }
+    }
+    else{
+      
+      if(length(input$mytable_rows_selected)){
+        if(subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+          select = c("material_cost")
+        )[input$mytable_rows_selected, "material_cost"] == ""){
+          "-"
+        }
+        else{
+          
+          subset(
+            data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+            select = c("material_cost")
+          )[input$mytable_rows_selected, "material_cost"]
+        }
+      }
+      else{
+        "-"
+      }
+    }
+  })
+  
+  output$components = renderPlot({
+    if(input$classpicker == "Any"){
+      
+      data_components <- melt(subset(
+        data[input$mytable_rows_selected,], select = c(name, verbal, somatic, material)
+      ), id.vars = "name")
+      
+      ggplot(data_components) +
+        geom_bar(aes(x = variable, y = value), stat = "identity")  +
+        theme(legend.position = "none",
+              axis.ticks.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.ticks.y=element_blank(),
+              axis.title.y=element_blank(),
+              plot.margin = margin(t = 0,  # Top margin
+                                   r = 0,  # Right margin
+                                   b = 0,  # Bottom margin
+                                   l = 0)) +
+        scale_y_continuous(breaks = seq(0, 2)) +
+        ggtitle("Components") +
+        theme(plot.title = element_text(hjust = 0.5))
+    }
+    else{
+      
+      data_components <- melt(subset(
+        subset(
+          data[grep(paste(input$classpicker, collapse = "|"), data$classes),]
+        )[input$mytable_rows_selected,], select = c(name, verbal, somatic, material)
+      ), id.vars = "name")
+      
+      ggplot(data_components) +
+        geom_bar(aes(x = variable, y = value), stat = "identity")  +
+        theme(legend.position = "none", 
+              axis.ticks.x=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.y=element_blank(),
+              axis.ticks.y=element_blank(),
+              axis.title.y=element_blank(),
+              plot.margin = margin(t = 0,  # Top margin
+                                   r = 0,  # Right margin
+                                   b = 0,  # Bottom margin
+                                   l = 0)) +
+        scale_y_continuous(breaks = seq(0, 2)) +
+        ggtitle("Components") +
+        theme(plot.title = element_text(hjust = 0.5))
     }
   })
   
