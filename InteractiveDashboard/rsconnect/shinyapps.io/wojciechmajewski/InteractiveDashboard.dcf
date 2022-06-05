@@ -1,0 +1,13 @@
+name: InteractiveDashboard
+title: InteractiveDashboard
+username:
+account: wojciechmajewski
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6434000
+bundleId: 5979141
+url: https://wojciechmajewski.shinyapps.io/InteractiveDashboard/
+when: 1654438737.6772
+lastSyncTime: 1654438737.6772
+asMultiple: FALSE
+asStatic: FALSE
