@@ -412,7 +412,8 @@ shinyServer(function(input, output, session) {
         geom_bar(aes(y = school, fill = school), 
                  stat = "count")  +
         scale_fill_manual(values = schoolcolorvalues) +
-        theme(legend.position = "none")
+        theme(legend.position = "none") +
+        labs(x = "Count", y = "Spell school")
     }
     else{
       
@@ -423,7 +424,8 @@ shinyServer(function(input, output, session) {
         geom_bar(aes(y = school, fill = school), 
                  stat = "count") +
         scale_fill_manual(values = schoolcolorvalues) +
-        theme(legend.position = "none")
+        theme(legend.position = "none") +
+        labs(x = "Count", y = "Spell school")
     }
   })
   
@@ -435,7 +437,8 @@ shinyServer(function(input, output, session) {
                  stat = "count") +
         scale_fill_manual(values = levelcolorvalues, breaks = levelcolorbreaks) +
         theme(legend.position = "none") +
-        scale_y_continuous(breaks = seq(0, 9))
+        scale_y_continuous(breaks = seq(0, 9)) +
+        labs(x = "Count", y = "Spell level")
     }
     else{
       
@@ -447,7 +450,8 @@ shinyServer(function(input, output, session) {
                  stat = "count") +
         scale_fill_manual(values = levelcolorvalues, breaks = levelcolorbreaks) +
         theme(legend.position = "none") +
-        scale_y_continuous(breaks = seq(0, 9))
+        scale_y_continuous(breaks = seq(0, 9)) +
+        labs(x = "Count", y = "Spell level")
     }
   })
   

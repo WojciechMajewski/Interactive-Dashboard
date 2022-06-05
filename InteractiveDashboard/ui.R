@@ -230,7 +230,7 @@ shinyUI(fluidPage(
                  fluidRow(
                    column(6, align="center",
                                    style = "font-size:24px; font-weight: bold; 
-                                   vertical-align:top; padding:16px",
+                                   vertical-align:top; padding-left:16px",
                                    "About",
                                    div(style = "font-size:21px; font-weight: normal; text-align: justify", 
                                        "This interactive dashboard is a tool designed for 
@@ -245,7 +245,7 @@ shinyUI(fluidPage(
                    ),
                    column(6, align="center",
                                    style = "font-size:24px; font-weight: bold; 
-                                   vertical-align:top; padding:16px",
+                                   vertical-align:top; padding-right:16px",
                                     br(),br(),br(),br(),br(),br(),br(),br(),
                                    "Help",
                                    div(style = "font-size:21px; font-weight: normal; text-align: justify", 
