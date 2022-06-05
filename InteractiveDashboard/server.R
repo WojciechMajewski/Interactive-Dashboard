@@ -46,9 +46,9 @@ shinyServer(function(input, output, session) {
         ),
         colnames = c("Spell Name" = "name", "Tier" = "level", "Spellschool" = "school"),
         rownames = FALSE,
-        caption = htmltools::tags$caption(
-          style = 'caption-side: bottom; text-align: center;', htmltools::em('Click on a spell to learn all about it!')
-        ),
+        #caption = htmltools::tags$caption(
+        #  style = 'caption-side: bottom; text-align: center;', htmltools::em('Click on a spell to learn all about it!')
+        #),
         selection = "single",
         options = list(
           dom = 't',
@@ -63,7 +63,7 @@ shinyServer(function(input, output, session) {
           scrollCollapse=TRUE,
           initComplete = JS(
             "function(settings, json) {",
-            "$(this.api().table().header()).css({'background-color': '#526', 'color': '#ff5'});",
+            "$(this.api().table().header()).css({'background-color': '#74a', 'color': '#fff'});",
             "}"
           )
         )
@@ -79,9 +79,9 @@ shinyServer(function(input, output, session) {
         ),
         colnames = c("Spell Name" = "name", "Tier" = "level", "Spellschool" = "school"),
         rownames = FALSE,
-        caption = htmltools::tags$caption(
-          style = 'caption-side: bottom; text-align: center;', htmltools::em('Click on a spell to learn all about it!')
-        ),
+        #caption = htmltools::tags$caption(
+        #  style = 'caption-side: bottom; text-align: center;', htmltools::em('Click on a spell to learn all about it!')
+        #),
         selection = "single",
         options = list(
           dom = 't',
@@ -96,7 +96,7 @@ shinyServer(function(input, output, session) {
           scrollCollapse=TRUE,
           initComplete = JS(
             "function(settings, json) {",
-            "$(this.api().table().header()).css({'background-color': '#526', 'color': '#ff5'});",
+            "$(this.api().table().header()).css({'background-color': '#74a', 'color': '#fff'});",
             "}"
           )
         )
@@ -227,6 +227,9 @@ shinyServer(function(input, output, session) {
       if(length(input$mytable_rows_selected)){
         data[input$mytable_rows_selected, "description"]
       }
+      #else{
+      #  "Click on a row on the list to the right ->"
+      #}
     }
     else{
       
@@ -236,6 +239,9 @@ shinyServer(function(input, output, session) {
           select = c("description")
         )[input$mytable_rows_selected, "description"]
       }
+      #else{
+      #  "Click on a row on the list to the right ->"
+      #}
     }
   })
   
@@ -358,7 +364,7 @@ shinyServer(function(input, output, session) {
       ), id.vars = "name")
       
       ggplot(data_components) +
-        geom_bar(aes(x = variable, y = value), stat = "identity")  +
+        geom_bar(aes(x = variable, y = value, fill = variable), stat = "identity")  +
         theme(legend.position = "none",
               axis.ticks.x=element_blank(),
               axis.title.x=element_blank(),
@@ -382,7 +388,7 @@ shinyServer(function(input, output, session) {
       ), id.vars = "name")
       
       ggplot(data_components) +
-        geom_bar(aes(x = variable, y = value), stat = "identity")  +
+        geom_bar(aes(x = variable, y = value, fill = variable), stat = "identity")  +
         theme(legend.position = "none", 
               axis.ticks.x=element_blank(),
               axis.title.x=element_blank(),
@@ -403,7 +409,7 @@ shinyServer(function(input, output, session) {
     if(input$classpicker == "Any"){
       
       ggplot(data) +
-        geom_bar(aes(x = school, fill = school), 
+        geom_bar(aes(y = school, fill = school), 
                  stat = "count")  +
         scale_fill_manual(values = schoolcolorvalues) +
         theme(legend.position = "none")
@@ -414,7 +420,7 @@ shinyServer(function(input, output, session) {
         data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
         select = c(school)
       )) +
-        geom_bar(aes(x = school, fill = school), 
+        geom_bar(aes(y = school, fill = school), 
                  stat = "count") +
         scale_fill_manual(values = schoolcolorvalues) +
         theme(legend.position = "none")
@@ -425,11 +431,11 @@ shinyServer(function(input, output, session) {
     if(input$classpicker == "Any"){
       
       ggplot(data) +
-        geom_bar(aes(x = level, fill = factor(level)), 
+        geom_bar(aes(y = level, fill = factor(level)), 
                  stat = "count") +
         scale_fill_manual(values = levelcolorvalues, breaks = levelcolorbreaks) +
         theme(legend.position = "none") +
-        scale_x_continuous(breaks = seq(0, 9))
+        scale_y_continuous(breaks = seq(0, 9))
     }
     else{
       
@@ -437,11 +443,55 @@ shinyServer(function(input, output, session) {
         data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
         select = c(level)
       )) +
-        geom_bar(aes(x = level, fill = factor(level)), 
+        geom_bar(aes(y = level, fill = factor(level)), 
                  stat = "count") +
         scale_fill_manual(values = levelcolorvalues, breaks = levelcolorbreaks) +
         theme(legend.position = "none") +
-        scale_x_continuous(breaks = seq(0, 9))
+        scale_y_continuous(breaks = seq(0, 9))
+    }
+  })
+  
+  output$chartrange = renderPlot({
+    if(input$classpicker == "Any"){
+      
+      ggplot(data) +
+        geom_bar(aes(y = range, fill = factor(range)), 
+                 stat = "count") +
+        theme(legend.position = "none") +
+        labs(x = "Count", y = "Range")
+    }
+    else{
+      
+      ggplot(subset(
+        data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+        select = c(range)
+      )) +
+        geom_bar(aes(y = range, fill = factor(range)), 
+                 stat = "count") +
+        theme(legend.position = "none") +
+        labs(x = "Count", y = "Range")
+    }
+  })
+  
+  output$chartduration = renderPlot({
+    if(input$classpicker == "Any"){
+      
+      ggplot(data) +
+        geom_bar(aes(y = duration, fill = factor(duration)), 
+                 stat = "count") +
+        theme(legend.position = "none") +
+        labs(x = "Count", y = "Duration")
+    }
+    else{
+      
+      ggplot(subset(
+        data[grep(paste(input$classpicker, collapse = "|"), data$classes),],
+        select = c(duration)
+      )) +
+        geom_bar(aes(y = duration, fill = factor(duration)), 
+                 stat = "count") +
+        theme(legend.position = "none") +
+        labs(x = "Count", y = "Duration")
     }
   })
   

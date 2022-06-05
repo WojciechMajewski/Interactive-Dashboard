@@ -38,7 +38,7 @@ shinyUI(fluidPage(
                column(9, 
                       img(src = "PP_logotyp_ANG_RGB.png", 
                           height="100%", width="100%"),
-                      style = "padding:20px;"),
+                      style = "padding-top:20px; padding-left:20px; padding-right:20px"),
                
                column(3,
                       style = "font-size:18px; padding-top:12px",
@@ -73,11 +73,11 @@ shinyUI(fluidPage(
                       
                       fluidRow(
                         column(4, align="right",
-                               style = "font-size:18px; padding-top:16px",
-                               "Specific class:"
+                               style = "font-size:18px; padding-top:16px; font-weight:bold",
+                               "Class:"
                         ),
                         column(4, align="left",
-                               style = "font-size:18px; width:140px; padding-top:12px",
+                               style = "font-size:18px; width:144px; padding-top:12px",
                                selectInput("classpicker", NULL, 
                                            #selectize = FALSE,
                                            #size = 10,
@@ -99,7 +99,7 @@ shinyUI(fluidPage(
                                      #icon("calendar", class = NULL, lib = "font-awesome"),
                      textOutput("spellname"),
                      align = 'center',
-                     style = "font-size:24px; font-weight: bold, vertical-align:top"
+                     style = "font-size:24px; font-weight: bold; vertical-align:top"
                    )
                  ),
                  fluidRow(
@@ -147,7 +147,20 @@ shinyUI(fluidPage(
                             column(10, align="left", textOutput("duration"), 
                               style = "font-size:18px"
                             )
-                          )
+                          ),
+                          
+                          fluidRow(
+                            column(1, style = "display: inline-block; vertical-align:top; padding-right:24px ",  
+                                   icon("fa-solid fa-hat-wizard", class = NULL, 
+                                        lib = "font-awesome",
+                                        verify_fa = FALSE,
+                                        style="font-size: 28px; color:black")
+                            ),
+                            column(10, style = "font-size:18px; display: inline-block; vertical-align:top; ",  
+                                   
+                                   textOutput("spellclasses")
+                            )
+                          ),
                     ),
                    column(6,
                           fluidRow(
@@ -180,7 +193,7 @@ shinyUI(fluidPage(
                                      style="font-size: 28px; color:black")
                          ),
                          column(10, align="left", textOutput("cost"), 
-                                style = "font-size:16px"
+                                style = "font-size:18px"
                          )
                        )
                    ),
@@ -188,42 +201,62 @@ shinyUI(fluidPage(
                    column(2, #style = "vertical-align:bottom",
                           plotOutput("components", height = "60px", width = "120px")
                    )
-                 ),
-                 fluidRow(
-                   column(1, align="right", style = "; padding-right:24px",  
-                          icon("fa-solid fa-hat-wizard", class = NULL, 
-                               lib = "font-awesome",
-                               verify_fa = FALSE,
-                               style="font-size: 28px; color:black")
-                   ),
-                   column(10, align="left", textOutput("spellclasses"), 
-                          style = "font-size:18px")
                  )
                  
                ),
                tabPanelBody("charts",
-                            plotOutput("chartschool"),
-                            plotOutput("chartlevel")),
+                            fluidRow(
+                              column(6, 
+                                     plotOutput("chartlevel",
+                                                height = "24vh")
+                                     ),
+                              
+                              column(6, 
+                                     plotOutput("chartschool",
+                                                height = "24vh")
+                              )
+                            ),
+                            fluidRow(
+                              column(6, 
+                                     plotOutput("chartduration")
+                              ),
+                              
+                              column(6, 
+                                     plotOutput("chartrange")
+                              )
+                            )),
                
                tabPanelBody("info", 
                  fluidRow(
-                   column(6, 
-                          fluidRow(
-                            column(6, offset = 3,
-                                   align="center",
-                                   style = "font-size:24px; font-weight: bold, 
-                                   vertical-align:top",
-                                   "About")
-                          )
+                   column(6, align="center",
+                                   style = "font-size:24px; font-weight: bold; 
+                                   vertical-align:top; padding:16px",
+                                   "About",
+                                   div(style = "font-size:21px; font-weight: normal; text-align: justify", 
+                                       "This interactive dashboard is a tool designed for 
+                                       DnD enthusiasts to quickly find all the necessary 
+                                       info about the spells available in DnD. 
+                                       The list of spells is accessible at all times, 
+                                       sortable, and can be reduced to a single 
+                                       class spell selection. Extra charts show the 
+                                       spell distribution through different tiers, 
+                                       spell schools and classes.")
+                          
                    ),
-                   column(6, 
-                          fluidRow(
-                            column(6, offset = 3,
-                                   align="center",
-                                   style = "font-size:24px; font-weight: bold, 
-                                   vertical-align:top",
-                                   "Help")
-                          )
+                   column(6, align="center",
+                                   style = "font-size:24px; font-weight: bold; 
+                                   vertical-align:top; padding:16px",
+                                    br(),br(),br(),br(),br(),br(),br(),br(),
+                                   "Help",
+                                   div(style = "font-size:21px; font-weight: normal; text-align: justify", 
+                                       "In the list (book) section, 
+                                       click on spells on the list to show
+                                       spell data. You can also sort the list, 
+                                       and narrow the spell selection by
+                                       enabling spells from only one class
+                                       to be shown. In the graph (chart) section, 
+                                       several plots show data about spells, and 
+                                       You can narrow the range by picking a specific class.")
                    )
                  )
                )
